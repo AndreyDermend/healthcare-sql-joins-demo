@@ -1,0 +1,21 @@
+name: sqlite-ci
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SQLite
+        run: sudo apt-get update && sudo apt-get install -y sqlite3
+      - name: Build DB
+        run: |
+          sqlite3 demo.db < sql/01_schema.sql
+          sqlite3 demo.db < sql/02_seed.sql
+      - name: Run example queries
+        run: sqlite3 demo.db < sql/03_queries.sql
+      - name: Smoke tests
+        run: sqlite3 demo.db < tests/smoke.sql

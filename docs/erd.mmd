@@ -1,0 +1,30 @@
+erDiagram
+  Patients ||--o{ Visits : has
+  Providers ||--o{ Visits : sees
+  Nurses ||--o{ Visits : assists
+  Visits ||--o{ Labs : yields
+  Visits ||--o{ Differentials : results_in
+  Differentials }o--|| Treatment : uses
+  Insurance ||--o{ Billing : covers
+  Billing ||--|| Visits : pays
+  Suppliers ||--o{ Supplies : provides
+  Supplies ||--o{ Facilities : stocked_in
+  Facilities ||--o{ Staff : hosts
+  Providers ||--o{ Specialization : has
+  Providers ||--o{ Pharmacy : affiliated_with
+
+  Patients { INT patient_ID PK, TEXT first_name, TEXT last_name, TEXT address }
+  Providers { INT provider_ID PK, TEXT first_name, TEXT last_name, INT NPI, INT license_num, TEXT license_state }
+  Nurses { INT nurse_ID PK, TEXT first_name, TEXT last_name, TEXT shift_day, TEXT shift_hours }
+  Visits { INT visit_ID PK, INT patient_ID FK, INT nurse_ID FK, INT provider_ID FK, INT bill_ID FK, INT facility_ID FK, DATE visit_date }
+  Labs { INT lab_ID PK, INT lab_code, TEXT results, INT visit_ID FK }
+  Differentials { INT differential_ID PK, TEXT diagnosis, INT visit_ID FK, INT treatment_ID FK }
+  Treatment { INT treatment_ID PK, INT medication_code }
+  Insurance { INT insurance_ID PK, TEXT insurance_name, INT insurance_num, INT deductable, INT co_pay }
+  Billing { INT billing_ID PK, DATE date_paid, INT amount_paid, TEXT card_num, INT CVV, INT insurance_ID FK }
+  Suppliers { INT suppliers_ID PK, TEXT country, TEXT suppliers_name }
+  Supplies { INT supply_ID PK, INT stock, TEXT category, INT supplier_ID FK }
+  Facilities { INT facility_ID PK, INT floor, INT room_num, INT supply_ID FK }
+  Staff { INT staff_ID PK, TEXT first_name, TEXT last_name, INT facility_ID FK }
+  Pharmacy { INT pharmacy_ID PK, TEXT US_state, TEXT county, TEXT city, INT provider_ID FK }
+  Specialization { INT specialization_ID PK, TEXT specialty, INT provider_ID FK }
